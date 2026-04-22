@@ -1,0 +1,33 @@
+### 1. 先注册一个用户（如果已有可跳过）
+POST http://localhost:8080/api/user/register
+Content-Type: application/json
+
+{
+  "account": "avatar_test",
+  "name": "头像测试用户",
+  "password": "123456"
+}
+
+### 2. 登录测试
+POST http://localhost:8080/api/user/login
+Content-Type: application/json
+
+{
+  "account": "avatar_test",
+  "password": "123456"
+}
+
+### 3. 上传头像测试
+POST http://localhost:8080/api/user/uploadAvatar
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="test.jpg"
+Content-Type: image/jpeg
+
+< D:/test.jpg
+--WebAppBoundary
+Content-Disposition: form-data; name="userId"
+
+10f305c3153e467fb96a16ea23ca17a8
+--WebAppBoundary--
