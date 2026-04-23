@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import cn.hutool.crypto.digest.BCrypt;
 
 
 @Service
@@ -19,7 +20,7 @@ public class UserServiceImpl implements UserService {
     public User login(String account, String password) {
         User user = userMapper.selectByAccount(account);
         //TODO：BCrypt加密验证
-        if (user != null && user.getPassword().equals(password)){
+        if (user != null && BCrypt.checkpw(password, user.getPassword())){
             return user;
         }
         return null;
@@ -32,6 +33,8 @@ public class UserServiceImpl implements UserService {
         user.setCreateTime(LocalDateTime.now());
         user.setUpdateTime(LocalDateTime.now());
         // TODO：BCrypt加密存储密码
+        String encodedPassword = BCrypt.hashpw(user.getPassword());
+        user.setPassword(encodedPassword);
         userMapper.insert(user);
         return user;
     }
