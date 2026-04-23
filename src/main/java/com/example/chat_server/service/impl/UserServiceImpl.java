@@ -4,7 +4,6 @@ import com.example.chat_server.entity.User;
 import com.example.chat_server.mapper.UserMapper;
 import com.example.chat_server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -16,13 +15,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @Override
     public User login(String account, String password) {
         User user = userMapper.selectByAccount(account);
-        if (user != null && passwordEncoder.matches(password, user.getPassword())){
+        //TODO：BCrypt加密验证
+        if (user != null && user.getPassword().equals(password)){
             return user;
         }
         return null;
@@ -34,8 +31,7 @@ public class UserServiceImpl implements UserService {
         user.setId(UUID.randomUUID().toString().replace("-", ""));
         user.setCreateTime(LocalDateTime.now());
         user.setUpdateTime(LocalDateTime.now());
-        // 加密密码
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        // TODO：BCrypt加密存储密码
         userMapper.insert(user);
         return user;
     }
