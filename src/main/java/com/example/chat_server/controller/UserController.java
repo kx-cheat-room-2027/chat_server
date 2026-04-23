@@ -1,5 +1,6 @@
 package com.example.chat_server.controller;
 
+import com.example.chat_server.annotation.UrlFree;
 import com.example.chat_server.utils.ResultUtil;
 import com.example.chat_server.entity.User;
 import com.example.chat_server.service.UserService;
@@ -21,6 +22,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @UrlFree
     @PostMapping("/login")
     public JSONObject login(@RequestBody Map<String, String> params) {
         String account = params.get("account");
@@ -48,12 +50,14 @@ public class UserController {
         }
     }
 
+    @UrlFree
     @PostMapping("/register")
     public JSONObject register(@RequestBody User user) {
         User registeredUser = userService.register(user);
         return ResultUtil.Succeed("注册成功",registeredUser);
     }
 
+    @UrlFree
     @GetMapping("/{id}")
     public JSONObject getUserById(@PathVariable String id) {
         User user = userService.getUserById(id);
