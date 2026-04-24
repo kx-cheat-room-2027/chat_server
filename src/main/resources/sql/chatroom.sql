@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS chatroom DEFAULT CHARSET utf8mb4;
+USE chatroom;
 create table chatroom.message
 (
     id           varchar(64)      not null
@@ -6,8 +8,7 @@ create table chatroom.message
     is_show_time bit default b'0' null comment '是否显示时间',
     msg_content  text             null comment '消息内容',
     create_time  timestamp(3)     not null comment '创建时间',
-    update_time  timestamp(3)     not null comment '更新时间',
-    to_id        varchar(64)      not null comment '消息接受方'
+    update_time  timestamp(3)     not null comment '更新时间'
 )
     comment '消息表' row_format = DYNAMIC;
 
