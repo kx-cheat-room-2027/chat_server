@@ -88,6 +88,20 @@
             <artifactId>hutool-all</artifactId>
             <version>5.8.41</version>
         </dependency>
+
+        <!--    minio    -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>8.5.10</version>
+        </dependency>
+        <!--    redis    -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>4.2.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
