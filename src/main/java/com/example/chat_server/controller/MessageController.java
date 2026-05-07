@@ -3,6 +3,7 @@ package com.example.chat_server.controller;
 import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.chat_server.annotation.Userid;
+import com.example.chat_server.dto.SendMessageRequest;
 import com.example.chat_server.entity.Message;
 import com.example.chat_server.service.MessageService;
 import com.example.chat_server.utils.ResultUtil;
@@ -20,18 +21,16 @@ public class MessageController {
     /**
      * 发送消息（第一步）
      *
-     * @param fromId 发送方ID
-     * @param type 消息类型（text/image/file）
-     * @param content 消息内容
+     *
+     * @param request 消息类型type和内容content
      * @return message
      */
     @PostMapping("/send")
     public JSONObject sendMessage(
             @Userid String fromId,
-            @RequestParam String type,
-            @RequestParam(required = false, defaultValue = "") String content) {
+            @RequestBody SendMessageRequest request) {
 
-        Message message = messageService.sendMessage(fromId, type, content);
+        Message message = messageService.sendMessage(fromId, request.getType(), request.getContent());
 
         JSONObject result = ResultUtil.Succeed();
         result.set("data", message);
@@ -71,7 +70,7 @@ public class MessageController {
      * @return url 图片URL(7天有效期)
      */
     @GetMapping("/url/image/{minioName}")
-    public JSONObject getImageUrlByMinioName(String minioName) throws Exception {
+    public JSONObject getImageUrlByMinioName(@PathVariable String minioName) throws Exception {
         String url = messageService.getImageUrl(minioName);
         return ResultUtil.Succeed(url);
     }
